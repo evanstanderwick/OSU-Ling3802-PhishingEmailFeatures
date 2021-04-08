@@ -1,0 +1,7 @@
+Corpus taken from http://nlp.cs.aueb.gr/software_and_datasets/Enron-Spam/index.html Enron1
+
+500 Spam, 500 Ham Total
+
+Dev: 50 Spam, 50 Ham
+Train: 400 Spam, 400 Ham
+Test: 50 Spam, 50 Ham
