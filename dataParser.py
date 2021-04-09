@@ -1,7 +1,7 @@
 # Author: Evan Standerwick
 # This program takes an input data set (TODO figure out data set file format) and outputs a tsv to be fed into the Stanford classifier.
 # Developed on Windows 10 using Python 3.8.1
-# Instructions: run using ./python dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
+# Instructions: run using: py dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
 
 
 import os
@@ -9,10 +9,12 @@ import sys
 
 
 def main():
-    # 1. OPEN UP INPUT DATA FOLDER
+    # 1. OPEN UP INPUT DATA FOLDER AND OUTPUT TSV FILE
+    outputFile = open(sys.argv[3], "w")
+
     # Opening directory in python code modified from here: https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-    rel_path = sys.argv[1] + "\\"
+    rel_path = sys.argv[2] + "\\"
     directory = os.path.join(script_dir, rel_path)
 
     for filename in os.listdir(directory):
@@ -30,7 +32,6 @@ def main():
         labelAndFeatures = getLabelAndFeatures(isSpam, subjectLine, body)
 
         # 4. PRINT CURRENT ENTRY DATA TO OUTPUT .TSV FILE
-        outputFile = open(sys.argv[4], "w")
         printToTsv(labelAndFeatures, outputFile)
         # 5. REPEAT STEPS 1-4 UNTIL END OF FOLDER
 
