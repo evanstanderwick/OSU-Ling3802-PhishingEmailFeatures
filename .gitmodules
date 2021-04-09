@@ -1,0 +1,3 @@
+[submodule "pyspellchecker"]
+	path = pyspellchecker
+	url = https://github.com/barrust/pyspellchecker.git

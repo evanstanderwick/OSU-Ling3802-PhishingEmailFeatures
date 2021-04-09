@@ -1,13 +1,16 @@
+# TODO: Move a lot of this stuff to README, and add more detail.
 # Author: Evan Standerwick
-# This program takes an input data set (TODO figure out data set file format) and outputs a tsv to be fed into the Stanford classifier.
+# This program takes the included formatted email data set and outputs a tsv to be fed into the Stanford classifier.
 # Developed on Windows 10 using Python 3.8.1
 # Instructions: run using: py dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
 # Run for ham folder first, then again for spam folder, or vice versa.
 # Note: Selected output file isn't overwritten, it's just appended to.
+# Spellchecking library used from here: https://pypi.org/project/pyspellchecker/
 
 
 import os
 import sys
+from pyspellchecker import spellChecker
 
 
 def main():
