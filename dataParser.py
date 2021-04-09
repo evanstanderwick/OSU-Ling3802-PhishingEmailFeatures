@@ -2,6 +2,8 @@
 # This program takes an input data set (TODO figure out data set file format) and outputs a tsv to be fed into the Stanford classifier.
 # Developed on Windows 10 using Python 3.8.1
 # Instructions: run using: py dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
+# Run for ham folder first, then again for spam folder, or vice versa.
+# Note: Selected output file isn't overwritten, it's just appended to.
 
 
 import os
@@ -10,7 +12,7 @@ import sys
 
 def main():
     # 1. OPEN UP INPUT DATA FOLDER AND OUTPUT TSV FILE
-    outputFile = open(sys.argv[3], "w")
+    outputFile = open(sys.argv[3], "a")
 
     # Opening directory in python code modified from here: https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
@@ -26,7 +28,7 @@ def main():
 
         # 3. GET LABEL AND BINARY FEATURES FOR CURRENT ENTRY
         isSpam = False
-        hamOrSpam = sys.argv[2]
+        hamOrSpam = sys.argv[1]
         if (hamOrSpam == "spam"):
             isSpam = True
         labelAndFeatures = getLabelAndFeatures(isSpam, subjectLine, body)
@@ -68,7 +70,10 @@ def getBody(inputFile):
 # Param body: the message body
 # Returns: (label, binary_feature_1, binary_feature_2, ...)
 def getLabelAndFeatures(isSpam: bool, subjectLine: str, body: str):
-    return ("getLabelAndFeatures")
+    hamOrSpam = "ham"
+    if isSpam:
+        hamOrSpam = "spam"
+    return (hamOrSpam, "firstFeature:1", "secondFeature:2")
 
 
 # TODO
