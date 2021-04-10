@@ -1,7 +1,7 @@
 # TODO: Move a lot of this stuff to README, and add more detail.
 # Author: Evan Standerwick
 # This program takes the included formatted email data set and outputs a tsv to be fed into the Stanford classifier.
-# Developed on Windows 10 using Python 3.8.1
+# Developed on Windows 10 in Python 3.8.1
 # Instructions: run using: py dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
 # Run for ham folder first, then again for spam folder, or vice versa.
 # Note: Selected output file isn't overwritten, it's just appended to.
@@ -10,7 +10,13 @@
 
 import os
 import sys
-from pyspellchecker import spellChecker
+import string
+from pyspellchecker.spellchecker import SpellChecker
+
+
+# Declaring constants
+SUBJMISSPELLINGSCUTOFF = 3
+BODYMISSPELLINGSCUTOFF = 0.20
 
 
 def main():
@@ -21,7 +27,8 @@ def main():
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
     rel_path = sys.argv[2] + "\\"
     directory = os.path.join(script_dir, rel_path)
-
+    
+    i = 1
     for filename in os.listdir(directory):
         currentFile = open(rel_path + filename, "r")
         # 2. BEGIN PARSING
@@ -39,6 +46,8 @@ def main():
         # 4. PRINT CURRENT ENTRY DATA TO OUTPUT .TSV FILE
         printToTsv(labelAndFeatures, outputFile)
         # 5. REPEAT STEPS 1-4 UNTIL END OF FOLDER
+        print(f"Completed parsing file {i}")
+        i += 1
 
     # 6. CLOSE IO STREAMS AND EXIT
     outputFile.close()
@@ -76,16 +85,53 @@ def getLabelAndFeatures(isSpam: bool, subjectLine: str, body: str):
     hamOrSpam = "ham"
     if isSpam:
         hamOrSpam = "spam"
-    return (hamOrSpam, "firstFeature:1", "secondFeature:2")
+    subj_missellings = getSubjectLineMisspelledWords(subjectLine)
+    body_misspellings = getBodyMisspelledWords(body)
+    return (hamOrSpam, subj_missellings, body_misspellings)
 
 
-# TODO
-# Gets a value for (TODO decide on what feature1 will be)
+# Gets a binary feature for the number of misspelled words in the subject line
 # Param subjectLine: the message subject line
-# Param body: the message body
-# Returns: binary_feature_1
-def getFeature1(subjectLine: str, body: str):
-    print("getFeature1")
+# Returns: subj_misspellings:low if > SUBJMISSPELLINGSCUTOFF misspellings, or subj_misspellings:high if >= SUBJMISSPELLINGSCUTOFF misspellings
+def getSubjectLineMisspelledWords(subjectLine: str):
+    filtered = subjectLine.translate(str.maketrans('', '', string.punctuation))
+
+    words = filtered.split(" ")
+    numWords = len(words)
+
+    spellchecker = SpellChecker()
+    misspelled = spellchecker.unknown(words)
+    numMisspelled = len(misspelled)
+    #print(misspelled)
+
+    proportion = numMisspelled / numWords
+    feature = "subj_misspellings:low"
+    #if proportion >= 0.35:
+    if (numMisspelled >= SUBJMISSPELLINGSCUTOFF):
+        feature = "subj_missellings:high"
+
+    return feature
+
+
+# Gets a binary feature for the number of misspelled words in the subject line
+# Param subjectLine: the message subject line
+# Returns: subj_misspellings:low if > SUBJMISSPELLINGSCUTOFF misspellings, or subj_misspellings:high if >= SUBJMISSPELLINGSCUTOFF misspellings
+def getBodyMisspelledWords(body: str):
+    filtered = body.translate(str.maketrans('', '', string.punctuation))
+
+    words = filtered.split(" ")
+    numWords = len(words)
+
+    spellchecker = SpellChecker()
+    misspelled = spellchecker.unknown(words)
+    numMisspelled = len(misspelled)
+
+    proportion = numMisspelled / numWords
+    feature = "body_misspellings:low"
+    if proportion >= BODYMISSPELLINGSCUTOFF:
+        feature = "body_missellings:high"
+
+    return feature
 
 
 # Prints an entry tuple into our TSV file
