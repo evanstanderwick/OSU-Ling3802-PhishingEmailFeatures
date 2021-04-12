@@ -1,3 +1,5 @@
+# Added this file until github issues are resolved - will delete later
+
 # TODO: Move a lot of this stuff to README, and add more detail.
 # Author: Evan Standerwick
 # This program takes the included formatted email data set and outputs a tsv to be fed into the Stanford classifier.
