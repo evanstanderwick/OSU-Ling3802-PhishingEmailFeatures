@@ -12,7 +12,11 @@ This project takes a selection of 500 spam and 500 ham emails from the Enron1 fo
 
 These features are as follows:
 * Number of misspelled words in the email subject line
+    * subj_misspellings:low if < 3 misspellings
+    * subj_misspellings:high if >= 3 misspellings
 * Proportion of misspelled words in the email body
+    * body_misspellings:low if (num misspellings / num words) < 0.2
+    * body_misspellings:high if (num misspellings / num words) >= 0.2
 * Amount of certain keywords in email subject line
 * Amount of certain keywords in email body
 * Amount of eye-catching symbols in the email subject line
