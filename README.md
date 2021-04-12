@@ -35,8 +35,11 @@ Do this for the train data and for the test data, getting two separate .tsv file
 
 Example: 
 `py dataParser.py ham data\train\ham trainFeatures.tsv`
+
 `py dataParser.py spam data\train\spam trainFeatures.tsv`
+
 `py dataParser.py ham data\test\ham testFeatures.tsv`
+
 `py dataParser.py spam data\test\spam testFeatures.tsv`
 
 Note: Selected output file is never overwritten, just appended to.
