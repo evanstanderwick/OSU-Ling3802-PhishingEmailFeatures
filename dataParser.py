@@ -1,13 +1,3 @@
-# TODO: Move a lot of this stuff to README, and add more detail.
-# Author: Evan Standerwick
-# This program takes the included formatted email data set and outputs a tsv to be fed into the Stanford classifier.
-# Developed on Windows 10 in Python 3.8.1
-# Instructions: run using: py dataParser.py <ham/spam> <Input_Folder_Path> <Output_File_Name>
-# Run for ham folder first, then again for spam folder, or vice versa.
-# Note: Selected output file isn't overwritten, it's just appended to.
-# Spellchecking library used from here: https://pypi.org/project/pyspellchecker/
-
-
 import os
 import sys
 import string
@@ -92,7 +82,7 @@ def getLabelAndFeatures(isSpam: bool, subjectLine: str, body: str):
 
 # Gets a binary feature for the number of misspelled words in the subject line
 # Param subjectLine: the message subject line
-# Returns: subj_misspellings:low if > SUBJMISSPELLINGSCUTOFF misspellings, or subj_misspellings:high if >= SUBJMISSPELLINGSCUTOFF misspellings
+# Returns: subj_misspellings:low if < SUBJMISSPELLINGSCUTOFF misspellings, or subj_misspellings:high if >= SUBJMISSPELLINGSCUTOFF misspellings
 def getSubjectLineMisspelledWords(subjectLine: str):
     filtered = subjectLine.translate(str.maketrans('', '', string.punctuation))
 
@@ -113,9 +103,9 @@ def getSubjectLineMisspelledWords(subjectLine: str):
     return feature
 
 
-# Gets a binary feature for the number of misspelled words in the subject line
-# Param subjectLine: the message subject line
-# Returns: subj_misspellings:low if > SUBJMISSPELLINGSCUTOFF misspellings, or subj_misspellings:high if >= SUBJMISSPELLINGSCUTOFF misspellings
+# Gets a binary feature for the proportion of misspelled words in the body
+# Param body: the message body
+# Returns: body_misspellings:low if (num misspellings / num words) < BODYMISSPELLINGSCUTOFF, or body_misspellings:high if (num misspellings / num words) >= BODYMISSPELLINGSCUTOFF
 def getBodyMisspelledWords(body: str):
     filtered = body.translate(str.maketrans('', '', string.punctuation))
 
