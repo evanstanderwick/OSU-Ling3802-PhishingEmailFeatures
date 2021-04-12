@@ -87,16 +87,12 @@ def getSubjectLineMisspelledWords(subjectLine: str):
     filtered = subjectLine.translate(str.maketrans('', '', string.punctuation))
 
     words = filtered.split(" ")
-    numWords = len(words)
 
     spellchecker = SpellChecker()
     misspelled = spellchecker.unknown(words)
     numMisspelled = len(misspelled)
-    #print(misspelled)
 
-    proportion = numMisspelled / numWords
     feature = "subj_misspellings:low"
-    #if proportion >= 0.35:
     if (numMisspelled >= SUBJMISSPELLINGSCUTOFF):
         feature = "subj_missellings:high"
 
