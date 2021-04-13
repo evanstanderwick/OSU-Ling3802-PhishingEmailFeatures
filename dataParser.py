@@ -168,7 +168,7 @@ def findKeywordsSL(subjectLine)
 def findKeywordsBody(body)
   {
     #define list of keywords
-    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account',  ] #add more (from NCBI site)
+    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account'] #add more (from NCBI site)
     stringWords = body.split()
     cutoff = 2 #UPDATE
 
