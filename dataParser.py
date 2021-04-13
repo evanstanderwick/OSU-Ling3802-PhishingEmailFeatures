@@ -6,7 +6,11 @@ from pyspellchecker.spellchecker import SpellChecker
 
 # Declaring constants
 SUBJMISSPELLINGSCUTOFF = 3
-BODYMISSPELLINGSCUTOFF = 0.20
+BODYMISSPELLINGSCUTOFF = 0.2
+SUBJKEYWORDSCUTOFF = 1
+BODYKEYWORDSSCUTOFF = 1
+SUBJSYMBOLSCUTOFF = 1
+BODYSYMBOLSCUTOFF = 5
 
 
 def main():
@@ -65,7 +69,6 @@ def getBody(inputFile):
     return body
 
 
-# TODO
 # Returns a tuple of (label, binary_feature_1, binary_feature_2, binary_feature_3, ...)
 # Param isSpam: true if inputFile is spam, false if ham
 # Param subjectLine: the message subject line
@@ -75,16 +78,17 @@ def getLabelAndFeatures(isSpam: bool, subjectLine: str, body: str):
     hamOrSpam = "ham"
     if isSpam:
         hamOrSpam = "spam"
-    subj_missellings = getSubjectLineMisspelledWords(subjectLine)
+    subj_misspellings = getSubjectLineMisspelledWords(subjectLine)
     body_misspellings = getBodyMisspelledWords(body)
     
-     #ADD KEYWORD DETECTION FEATURES
+    #ADD KEYWORD DETECTION FEATURES
     subj_keywords = findKeywordsSL(subjectLine)
     subj_symbols = findSymbolsSL(subjectLine)
 
     body_keys = findKeywordsBody(body)
     body_symbol = findSymbolsBody(body)
-    return (hamOrSpam, subj_missellings, body_misspellings, subj_keywords, subj_symbols, body_keys, body_symbol)
+    return (hamOrSpam, subj_misspellings, body_misspellings, subj_keywords, subj_symbols, body_keys, body_symbol)
+    #return (hamOrSpam, subj_misspellings, body_misspellings)
 
 
 # Gets a binary feature for the number of misspelled words in the subject line
@@ -101,7 +105,7 @@ def getSubjectLineMisspelledWords(subjectLine: str):
 
     feature = "subj_misspellings:low"
     if (numMisspelled >= SUBJMISSPELLINGSCUTOFF):
-        feature = "subj_missellings:high"
+        feature = "subj_misspellings:high"
 
     return feature
 
@@ -122,7 +126,7 @@ def getBodyMisspelledWords(body: str):
     proportion = numMisspelled / numWords
     feature = "body_misspellings:low"
     if proportion >= BODYMISSPELLINGSCUTOFF:
-        feature = "body_missellings:high"
+        feature = "body_misspellings:high"
 
     return feature
 
@@ -137,19 +141,19 @@ def printToTsv(entry: tuple, outputFile):
         i += 1
     outputFile.write(entry[i] + "\n") # after last feature, we want a new line, not a tab
     
+
 #Detects whether certain keywords are found in the subject line
-def findKeywordsSL(subjectLine)
-  {
+def findKeywordsSL(subjectLine):
     slKeys = ['action', 'response', 'urgent', 'required'] #add more
     slWords = subjectLine.split()
-    cutoff = 2 #update
+    cutoff = SUBJSYMBOLSCUTOFF
 
     #loop through list and count number of spamWords
     count = 0
     for x in slWords:
       for y in slKeys:
-        if x == y
-          count++ 
+        if (x == y):
+          count += 1
     
     #Compare with cutoff
     if count >= cutoff:
@@ -157,27 +161,25 @@ def findKeywordsSL(subjectLine)
     else:
       keyWordFeatureSL = "subjectLine_keywords:low"
 
-
     #return
-    return keyWordFeatureSL;
-  }
+    return keyWordFeatureSL
+  
 
 #Detects whether certain keywords are found in the body
 #Returns binary feature
 #Need to update with cutoff for amount of words found
-def findKeywordsBody(body)
-  {
+def findKeywordsBody(body):
     #define list of keywords
     bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account',  ] #add more (from NCBI site)
     stringWords = body.split()
-    cutoff = 2 #UPDATE
+    cutoff = BODYKEYWORDSSCUTOFF
 
     #loop through list and count number of spamWords
     count = 0
     for x in stringWords:
       for y in bodyKeys:
-        if x == y
-          count++ 
+        if (x == y):
+          count += 1 
     
     #Compare with cutoff
     if count >= cutoff:
@@ -187,25 +189,23 @@ def findKeywordsBody(body)
 
 
     #return
-    return keyWordFeature;
-  }
+    return keyWordFeature
 
 
 #Checks for excessive use of symbols, such as multiple exclamation points, etc and returns a binary feature
-def findSymbolsSL(subjectLine)
-{
+def findSymbolsSL(subjectLine):
   #Here we're checking for common closings
    #Here we're checking for common closings
     symbolKeys = ['@', '!', '$']
     stringWords = subjectLine.split()
-    cutoff = 2 #UPDATE
+    cutoff = SUBJSYMBOLSCUTOFF
 
     #loop through list and count number of spamWords
     count = 0
     for x in stringWords:
       for y in symbolKeys:
-        if x == y
-          count++ 
+        if (x == y):
+          count += 1
     
     #Compare with cutoff
     if count >= cutoff:
@@ -215,25 +215,23 @@ def findSymbolsSL(subjectLine)
 
 
     #return
-    return symbolFeature;
+    return symbolFeature
 
-}
 
 #Checks for excessive use of symbols, such as multiple exclamation points, etc and returns a binary feature
-def findSymbolsBody(body)
-{
+def findSymbolsBody(body):
   #Here we're checking for common closings
    #Here we're checking for common closings
     symbolKeys = ['@', '!', '$', '#']
     stringWords = body.split()
-    cutoff = 2 #UPDATE
+    cutoff = BODYSYMBOLSCUTOFF
 
     #loop through list and count number of spamWords
     count = 0
     for x in stringWords:
       for y in symbolKeys:
-        if x == y
-          count++ 
+        if (x == y):
+          count += 1 
     
     #Compare with cutoff
     if count >= cutoff:
@@ -241,11 +239,8 @@ def findSymbolsBody(body)
     else:
       symbolFeature = "body_symbols:low"
 
-
     #return
-    return symbolFeature;
-
-}
+    return symbolFeature
 
 
 if __name__ == '__main__':
