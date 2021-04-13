@@ -144,7 +144,7 @@ def printToTsv(entry: tuple, outputFile):
 
 #Detects whether certain keywords are found in the subject line
 def findKeywordsSL(subjectLine):
-    slKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required'] #add more
+    slKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required']
     slWords = subjectLine.split()
     cutoff = SUBJSYMBOLSCUTOFF
 
@@ -170,7 +170,7 @@ def findKeywordsSL(subjectLine):
 #Need to update with cutoff for amount of words found
 def findKeywordsBody(body):
     #define list of keywords
-    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required'] #add more (from NCBI site)
+    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required'] 
     stringWords = body.split()
     cutoff = BODYKEYWORDSSCUTOFF
 
