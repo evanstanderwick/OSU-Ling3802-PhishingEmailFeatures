@@ -170,7 +170,7 @@ def findKeywordsSL(subjectLine):
 #Need to update with cutoff for amount of words found
 def findKeywordsBody(body):
     #define list of keywords
-    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account',  ] #add more (from NCBI site)
+    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account'] #add more (from NCBI site)
     stringWords = body.split()
     cutoff = BODYKEYWORDSSCUTOFF
 
