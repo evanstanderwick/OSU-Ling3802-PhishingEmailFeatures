@@ -144,7 +144,7 @@ def printToTsv(entry: tuple, outputFile):
 
 #Detects whether certain keywords are found in the subject line
 def findKeywordsSL(subjectLine):
-    slKeys = ['action', 'response', 'urgent', 'required'] #add more
+    slKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required'] #add more
     slWords = subjectLine.split()
     cutoff = SUBJSYMBOLSCUTOFF
 
@@ -170,7 +170,7 @@ def findKeywordsSL(subjectLine):
 #Need to update with cutoff for amount of words found
 def findKeywordsBody(body):
     #define list of keywords
-    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'account'] #add more (from NCBI site)
+    bodyKeys = ['urgent', 'action', 'account', 'ssn', 'access'. 'information'. 'subscribe', 'subscription', 'credit', 'priority', 'security', 'address', 'response', 'required'] #add more (from NCBI site)
     stringWords = body.split()
     cutoff = BODYKEYWORDSSCUTOFF
 
@@ -196,7 +196,7 @@ def findKeywordsBody(body):
 def findSymbolsSL(subjectLine):
   #Here we're checking for common closings
    #Here we're checking for common closings
-    symbolKeys = ['@', '!', '$']
+    symbolKeys = ['@', '!', '$', '#', '%' '*']
     stringWords = subjectLine.split()
     cutoff = SUBJSYMBOLSCUTOFF
 
@@ -222,7 +222,7 @@ def findSymbolsSL(subjectLine):
 def findSymbolsBody(body):
   #Here we're checking for common closings
    #Here we're checking for common closings
-    symbolKeys = ['@', '!', '$', '#']
+    symbolKeys = ['@', '!', '$', '#', '%' '*']
     stringWords = body.split()
     cutoff = BODYSYMBOLSCUTOFF
 
