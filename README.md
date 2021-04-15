@@ -18,17 +18,17 @@ These features are as follows:
     * body_misspellings:low if (num misspellings / num words) < 0.2
     * body_misspellings:high if (num misspellings / num words) >= 0.2
 * Amount of certain keywords in email subject line
-    * subjectLine_keywords:low if < 2 keywords found
-    * subjectLine_keywords:high if >= 2 keywords found
+    * subjectLine_keywords:low if < 1 keywords found
+    * subjectLine_keywords:high if >= 1 keywords found
 * Amount of certain keywords in email body
     * body_keywords:low if < 2 keywords from list found
     * body_keywords:high if >= 2 keywords from list found
 * Amount of eye-catching symbols in the email subject line
-    * subjectLine_symbols:low if < 2 symbols from list found
-    * subjectLine_symbols:high if >= 2 symbols from list found
+    * subjectLine_symbols:low if < 1 symbols from list found
+    * subjectLine_symbols:high if >= 1 symbols from list found
 * Amount of eye-catching symbols in the email body
-    * body_symbols:low if < 2 symbols from list found  
-    * body_symbols:high if >= 2 symbols from list found
+    * body_symbols:low if < 1 symbols from list found  
+    * body_symbols:high if >= 1 symbols from list found
 
 - Add lists for keywords and symbols
 
